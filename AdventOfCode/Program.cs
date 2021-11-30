@@ -2,9 +2,9 @@
 using System.Diagnostics;
 
 static void RunSolution<T>(Func<T> solution) {
-	var stopwatch = new Stopwatch();
+	Stopwatch stopwatch = new();
 	stopwatch.Start();
-	var result = solution();
+	T result = solution();
 	stopwatch.Stop();
 	Console.WriteLine(result);
 	Console.WriteLine($"Completed in {stopwatch.ElapsedMilliseconds}ms");
