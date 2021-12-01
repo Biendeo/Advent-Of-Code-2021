@@ -10,5 +10,5 @@ public class Day01 : IDayChallenge {
 
 	public int PartTwo(List<int> measurements) => CalculateIncreases(measurements, 3);
 
-	private int CalculateIncreases(List<int> measurements, int windowSize) => measurements.Zip(measurements.Skip(windowSize), (x, y) => x < y).Count(b => b == true);
+	private int CalculateIncreases(List<int> measurements, int windowSize) => measurements.Zip(measurements.Skip(windowSize), (x, y) => x < y).Count(b => b);
 }
