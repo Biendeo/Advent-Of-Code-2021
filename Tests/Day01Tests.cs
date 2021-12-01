@@ -1,19 +1,25 @@
 ﻿using AdventOfCodeLib.Challenges;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace Tests;
 
 public class Day01Tests {
-	[Fact]
-	public void PartOneSucceeds() {
+	[Theory]
+	[InlineData("199,200,208,210,200,207,240,269,260,263", 7)]
+	public void PartOneSucceeds(string values, int expectedResult) {
 		Day01 challenge = new();
-		Assert.Equal("The answer to part 1", challenge.PartOneFromFile(Array.Empty<string>()));
+		List<int> parsedInput = values.Split(',').Select(x => int.Parse(x)).ToList();
+		Assert.Equal(expectedResult, challenge.PartOne(parsedInput));
 	}
 
-	[Fact]
-	public void PartTwoSucceeds() {
+	[Theory]
+	[InlineData("199,200,208,210,200,207,240,269,260,263", 5)]
+	public void PartTwoSucceeds(string values, int expectedResult) {
 		Day01 challenge = new();
-		Assert.Equal("The answer to part 2", challenge.PartTwoFromFile(Array.Empty<string>()));
+		List<int> parsedInput = values.Split(',').Select(x => int.Parse(x)).ToList();
+		Assert.Equal(expectedResult, challenge.PartTwo(parsedInput));
 	}
 }
