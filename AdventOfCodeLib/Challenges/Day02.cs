@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCodeLib.Challenges;
 
-[DayDetails(Day = 2, Name = "Tomorrow")]
+[DayDetails(Day = 2, Name = "Dive!")]
 public class Day02 : IDayChallenge {
 	public string PartOneFromFile(string[] inputLines) => PartOne(inputLines).ToString();
 
