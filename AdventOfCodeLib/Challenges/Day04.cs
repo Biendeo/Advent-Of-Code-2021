@@ -34,58 +34,25 @@ public class Day04 : IDayChallenge {
 		return (input[0].Split(',').Select(x => int.Parse(x)).ToArray(), bingoBoards);
 	}
 
+	private IEnumerable<(int x, int y)> IterateBingoBoard() => Enumerable.Range(0, BoardSize).SelectMany(x => Enumerable.Range(0, BoardSize), (x, y) => (x, y));
+
 	private (int turnCount, int score) GetVictoryOfBoard(int[] drawnNumbers, int[,] bingoBoard) {
 		int[,] modifiedBoard = (int[,])bingoBoard.Clone();
 		int lastDrawnNumber = -1;
 		int turnCount;
 		for (turnCount = 0; turnCount < drawnNumbers.Length && !DoesBoardHaveVictory(modifiedBoard); ++turnCount) {
 			lastDrawnNumber = drawnNumbers[turnCount];
-			for (int x = 0; x < BoardSize; ++x) {
-				for (int y = 0; y < BoardSize; ++y) {
-					if (modifiedBoard[x, y] == lastDrawnNumber) {
-						modifiedBoard[x, y] = CheckedValue;
-					}
+			foreach ((int x, int y) in IterateBingoBoard()) {
+				if (modifiedBoard[x, y] == lastDrawnNumber) {
+					modifiedBoard[x, y] = CheckedValue;
 				}
 			}
 		}
 		return (turnCount, GetBoardScore(modifiedBoard, lastDrawnNumber));
 	}
 
-	private bool DoesBoardHaveVictory(int[,] bingoBoard) {
-		// Horizontal
-		for (int y = 0; y < BoardSize; ++y) {
-			int sum = 0;
-			for (int x = 0; x < BoardSize; ++x) {
-				sum += bingoBoard[x, y];
-			}
-			if (sum == CheckedValue * BoardSize) {
-				return true;
-			}
-		}
+	private bool DoesBoardHaveVictory(int[,] bingoBoard) => Enumerable.Range(0, BoardSize).Any(y => Enumerable.Range(0, BoardSize).Sum(x => bingoBoard[x, y]) == CheckedValue * BoardSize) ||
+		Enumerable.Range(0, BoardSize).Any(x => Enumerable.Range(0, BoardSize).Sum(y => bingoBoard[x, y]) == CheckedValue * BoardSize);
 
-		// Vertical
-		for (int x = 0; x < BoardSize; ++x) {
-			int sum = 0;
-			for (int y = 0; y < BoardSize; ++y) {
-				sum += bingoBoard[x, y];
-			}
-			if (sum == CheckedValue * BoardSize) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-	
-	private int GetBoardScore(int[,] bingoBoard, int lastDrawnNumber) {
-		int score = 0;
-		for (int x = 0; x < BoardSize; ++x) {
-			for (int y = 0; y < BoardSize; ++y) {
-				if (bingoBoard[x, y] != CheckedValue) {
-					score += bingoBoard[x, y];
-				}
-			}
-		}
-		return score * lastDrawnNumber;
-	}
+	private int GetBoardScore(int[,] bingoBoard, int lastDrawnNumber) => IterateBingoBoard().Sum(c => bingoBoard[c.x, c.y] == CheckedValue ? 0 : bingoBoard[c.x, c.y]) * lastDrawnNumber;
 }
