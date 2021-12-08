@@ -1,5 +1,4 @@
 ﻿using AdventOfCodeLib.Challenges;
-using System.Linq;
 using Xunit;
 
 namespace Tests;
