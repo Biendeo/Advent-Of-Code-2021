@@ -24,7 +24,7 @@ public class Day08 : IDayChallenge {
 			(5, signal => signal.Length == 5 && signal != signalToDigits[3] && signal.All(c => signalToDigits[6].Contains(c))),
 			(2, signal => signal.Length == 5 && signal != signalToDigits[3] && signal != signalToDigits[5])
 		}) AssignIntoDigits(signalToDigits, s.signals, index, predicate);
-		return signalToDigits.IndexOf(s.digits[0]) * 1000 + signalToDigits.IndexOf(s.digits[1]) * 100 + signalToDigits.IndexOf(s.digits[2]) * 10 + signalToDigits.IndexOf(s.digits[3]);
+		return s.digits.Select((digit, i) => (digit, i)).Sum(x => signalToDigits.IndexOf(x.digit) * new int[] { 1000, 100, 10, 1 }[x.i]);
 	});
 
 	private IEnumerable<(string[] signals, string[] digits)> ParseInput(string[] inputLines) => inputLines.Select(s => (signals: s.Split(" | ")[0].Split(' ').Select(s => UnshuffleString(s)).ToArray(), digits: s.Split(" | ")[1].Split(' ').Select(s => UnshuffleString(s)).ToArray()));
