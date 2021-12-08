@@ -4,9 +4,7 @@
 public class Day08 : IDayChallenge {
 	public string PartOneFromFile(string[] inputLines) => PartOne(inputLines).ToString();
 
-	public readonly static int[] EdgesInOneFourSevenAndEight = { 2, 3, 4, 7 };
-
-	public int PartOne(string[] inputLines) => ParseInput(inputLines).Sum(s => s.digits.Count(d => EdgesInOneFourSevenAndEight.Contains(d.Length)));
+	public int PartOne(string[] inputLines) => ParseInput(inputLines).Sum(s => s.digits.Count(d => new[] { 2, 3, 4, 7 }.Contains(d.Length)));
 
 	public string PartTwoFromFile(string[] inputLines) => PartTwo(inputLines).ToString();
 
