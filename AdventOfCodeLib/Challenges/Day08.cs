@@ -10,21 +10,21 @@ public class Day08 : IDayChallenge {
 
 	public string PartTwoFromFile(string[] inputLines) => PartTwo(inputLines).ToString();
 
-	public int PartTwo(string[] inputLines) => ParseInput(inputLines).Sum(s => {
+	public int PartTwo(string[] inputLines) => ParseInput(inputLines).Sum(row => {
 		List<string> signalToDigits = Enumerable.Repeat("not found", 10).ToList();
 		foreach ((int index, Func<string, bool> predicate) in new List<(int index, Func<string, bool> predicate)> {
-			(1, signal => signal.Length == 2),
-			(4, signal => signal.Length == 4),
-			(7, signal => signal.Length == 3),
-			(8, signal => signal.Length == 7),
-			(3, signal => signal.Length == 5 && signalToDigits[7].All(c => signal.Contains(c))),
-			(9, signal => signal.Length == 6 && signalToDigits[4].All(c => signal.Contains(c))),
-			(6, signal => signal.Length == 6 && signalToDigits[1].Any(c => !signal.Contains(c))),
-			(0, signal => signal.Length == 6 && !signalToDigits.Contains(signal)),
-			(5, signal => signal.Length == 5 && signal != signalToDigits[3] && signal.All(c => signalToDigits[6].Contains(c))),
-			(2, signal => signal.Length == 5 && signal != signalToDigits[3] && signal != signalToDigits[5])
-		}) AssignIntoDigits(signalToDigits, s.signals, index, predicate);
-		return s.digits.Select((digit, i) => (digit, i)).Sum(x => signalToDigits.IndexOf(x.digit) * new int[] { 1000, 100, 10, 1 }[x.i]);
+			(1, s => s.Length == 2),
+			(4, s => s.Length == 4),
+			(7, s => s.Length == 3),
+			(8, s => s.Length == 7),
+			(3, s => s.Length == 5 && signalToDigits[7].All(c => s.Contains(c))),
+			(9, s => s.Length == 6 && signalToDigits[4].All(c => s.Contains(c))),
+			(6, s => s.Length == 6 && signalToDigits[1].Any(c => !s.Contains(c))),
+			(0, s => s.Length == 6 && !signalToDigits.Contains(s)),
+			(5, s => s.Length == 5 && s != signalToDigits[3] && s.All(c => signalToDigits[6].Contains(c))),
+			(2, s => s.Length == 5 && s != signalToDigits[3] && s != signalToDigits[5])
+		}) AssignIntoDigits(signalToDigits, row.signals, index, predicate);
+		return row.digits.Select((digit, i) => (digit, i)).Sum(x => signalToDigits.IndexOf(x.digit) * new[] { 1000, 100, 10, 1 }[x.i]);
 	});
 
 	private IEnumerable<(string[] signals, string[] digits)> ParseInput(string[] inputLines) => inputLines.Select(s => (signals: s.Split(" | ")[0].Split(' ').Select(s => UnshuffleString(s)).ToArray(), digits: s.Split(" | ")[1].Split(' ').Select(s => UnshuffleString(s)).ToArray()));
