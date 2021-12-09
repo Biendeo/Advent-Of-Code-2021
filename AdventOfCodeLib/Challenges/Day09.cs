@@ -27,11 +27,9 @@ public class Day09 : IDayChallenge {
 	private IEnumerable<(int x, int y)> GetTwoDimensionalRange(int startX, int endX, int startY, int endY) => Enumerable.Range(startX, endX - startX + 1).SelectMany(x => Enumerable.Range(startY, endY - startY + 1).Select(y => (x, y)));
 
 	private IEnumerable<(int x, int y)> GetNeighbours(int x, int y, int minX, int maxX, int minY, int maxY) {
-		List<(int x, int y)> r = new();
-		if (x > minX) r.Add((x - 1, y));
-		if (y > minY) r.Add((x, y - 1));
-		if (x < maxX) r.Add((x + 1, y));
-		if (y < maxY) r.Add((x, y + 1));
-		return r;
+		if (x > minX) yield return (x - 1, y);
+		if (y > minY) yield return (x, y - 1);
+		if (x < maxX) yield return (x + 1, y);
+		if (y < maxY) yield return (x, y + 1);
 	}
 }
