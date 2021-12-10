@@ -2,31 +2,23 @@
 
 [DayDetails(Day = 10, Name = "Syntax Scoring")]
 public class Day10 : IDayChallenge {
-	private static Dictionary<char, char> OpeningClosingBracePairs = new() {
-		{ '(', ')' },
-		{ '[', ']' },
-		{ '{', '}' },
-		{ '<', '>' }
-	};
-	
-	private static Dictionary<char, long> ClosingBraceToIllegalScore = new() {
-		{ ')', 3 },
-		{ ']', 57 },
-		{ '}', 1197 },
-		{ '>', 25137 }
-	};
+	private static List<char> OpeningBraces = new() { '(', '[', '{', '<' };
+	private static List<char> ClosingBraces = new() { ')', ']', '}', '>' };
+	private static Dictionary<char, int> IllegalScores = ClosingBraces.Zip(new[] { 3, 57, 1197, 25137 }).ToDictionary(c => c.First, c => c.Second);
 
 	public string PartOneFromFile(string[] inputLines) => PartOne(inputLines).ToString();
 
 	public long PartOne(string[] inputLines) => inputLines.Sum(l => IllegalLineScore(l));
 
+	private char GetClosingBrace(char c) => ClosingBraces[OpeningBraces.IndexOf(c)];
+
 	private long IllegalLineScore(string line) {
 		Stack<char> seenBrackets = new();
 		foreach (char c in line) {
-			if (OpeningClosingBracePairs.ContainsKey(c)) {
+			if (OpeningBraces.Contains(c)) {
 				seenBrackets.Push(c);
-			} else if (seenBrackets.TryPeek(out char x) && OpeningClosingBracePairs[x] != c) {
-				return ClosingBraceToIllegalScore[c];
+			} else if (seenBrackets.TryPeek(out char x) && GetClosingBrace(x) != c) {
+				return IllegalScores[c];
 			} else {
 				seenBrackets.Pop();
 			}
@@ -45,7 +37,7 @@ public class Day10 : IDayChallenge {
 		Stack<char> seenBrackets = new();
 		long score = 0;
 		foreach (char c in line) {
-			if (OpeningClosingBracePairs.ContainsKey(c)) {
+			if (OpeningBraces.Contains(c)) {
 				seenBrackets.Push(c);
 			} else {
 				seenBrackets.Pop();
@@ -53,7 +45,7 @@ public class Day10 : IDayChallenge {
 		}
 		while (seenBrackets.Any()) {
 			char nextBracket = seenBrackets.Pop();
-			score = score * 5 + OpeningClosingBracePairs.Values.ToList().IndexOf(OpeningClosingBracePairs[nextBracket]) + 1;
+			score = score * 5 + OpeningBraces.IndexOf(nextBracket) + 1;
 		}
 		return score;
 	}
