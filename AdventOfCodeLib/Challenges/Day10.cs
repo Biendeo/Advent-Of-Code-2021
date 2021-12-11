@@ -2,9 +2,9 @@
 
 [DayDetails(Day = 10, Name = "Syntax Scoring")]
 public class Day10 : IDayChallenge {
-	private static List<char> OpeningBraces = new() { '(', '[', '{', '<' };
-	private static List<char> ClosingBraces = new() { ')', ']', '}', '>' };
-	private static Dictionary<char, int> IllegalScores = ClosingBraces.Zip(new[] { 3, 57, 1197, 25137 }).ToDictionary(c => c.First, c => c.Second);
+	private static readonly List<char> OpeningBraces = new() { '(', '[', '{', '<' };
+	private static readonly List<char> ClosingBraces = new() { ')', ']', '}', '>' };
+	private static readonly Dictionary<char, int> IllegalScores = ClosingBraces.Zip(new[] { 3, 57, 1197, 25137 }).ToDictionary(c => c.First, c => c.Second);
 
 	public string PartOneFromFile(string[] inputLines) => PartOne(inputLines).ToString();
 
@@ -30,7 +30,7 @@ public class Day10 : IDayChallenge {
 
 	public long PartTwo(string[] inputLines) {
 		List<long> scores = inputLines.Where(l => IllegalLineScore(l) == 0).Select(l => IncompleteLineScore(l)).OrderBy(x => x).ToList();
-		return scores[scores.Count() / 2];
+		return scores[scores.Count / 2];
 	}
 
 	private long IncompleteLineScore(string line) {

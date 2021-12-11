@@ -10,7 +10,7 @@ public class Day07 : IDayChallenge {
 
 	public string PartTwoFromFile(string[] inputLines) => PartTwo(inputLines.Single().Split(',').Select(x => int.Parse(x)).ToArray()).ToString();
 
-	private int[] TriangleNumbers = Enumerable.Range(0, HopefullyLargestCrabDistance).Select(x => Enumerable.Range(1, x).Sum()).ToArray();
+	private static readonly int[] TriangleNumbers = Enumerable.Range(0, HopefullyLargestCrabDistance).Select(x => Enumerable.Range(1, x).Sum()).ToArray();
 
 	public int PartTwo(int[] input) => Enumerable.Range(0, input.Max() + 1).Select(x => input.Sum(y => TriangleNumbers[Math.Abs(x - y)])).Min();
 }

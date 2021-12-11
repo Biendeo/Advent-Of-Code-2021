@@ -12,13 +12,13 @@ public class Day02 : IDayChallenge {
 
 	public int PartTwo(string[] inputLines) => FindSolution(inputLines, partTwoActions);
 
-	private static Dictionary<string, Operation> partOneActions = new() {
+	private static readonly Dictionary<string, Operation> partOneActions = new() {
 		{ "up", (magnitude, x, y, aim) => (x, y - magnitude, aim) },
 		{ "forward", (magnitude, x, y, aim) => (x + magnitude, y, aim) },
 		{ "down", (magnitude, x, y, aim) => (x, y + magnitude, aim) }
 	};
 
-	private static Dictionary<string, Operation> partTwoActions = new() {
+	private static readonly Dictionary<string, Operation> partTwoActions = new() {
 		{ "up", (magnitude, x, y, aim) => (x, y, aim - magnitude) },
 		{ "forward", (magnitude, x, y, aim) => (x + magnitude, y + magnitude * aim, aim) },
 		{ "down", (magnitude, x, y, aim) => (x, y, aim + magnitude) }

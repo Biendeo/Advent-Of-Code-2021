@@ -50,9 +50,7 @@ public class Day11 : IDayChallenge {
 		} while (hasFlashedThisPass);
 
 		foreach ((int x, int y) in Helper.GetTwoDimensionalRange(0, map.GetLength(0) - 1, 0, map.GetLength(1) - 1)) {
-			if (hasFlashed[x, y]) {
-				map[x, y] = 0;
-			}
+			if (hasFlashed[x, y]) map[x, y] = 0;
 		}
 
 		return flashes;
