@@ -20,7 +20,7 @@ public class Day11 : IDayChallenge {
 
 	private int[,] ParseMap(string[] inputLines) {
 		int[,] map = new int[inputLines.First().Length, inputLines.Length];
-		foreach ((int x, int y) in GetTwoDimensionalRange(0, map.GetLength(0) - 1, 0, map.GetLength(1) - 1)) {
+		foreach ((int x, int y) in Helper.GetTwoDimensionalRange(0, map.GetLength(0) - 1, 0, map.GetLength(1) - 1)) {
 			map[x, y] = inputLines[y][x] - '0';
 		}
 		return map;
@@ -30,16 +30,16 @@ public class Day11 : IDayChallenge {
 		bool[,] hasFlashed = new bool[map.GetLength(0), map.GetLength(1)];
 		int flashes = 0;
 
-		foreach ((int x, int y) in GetTwoDimensionalRange(0, map.GetLength(0) - 1, 0, map.GetLength(1) - 1)) {
+		foreach ((int x, int y) in Helper.GetTwoDimensionalRange(0, map.GetLength(0) - 1, 0, map.GetLength(1) - 1)) {
 			++map[x, y];
 		}
 
 		bool hasFlashedThisPass;
 		do {
 			hasFlashedThisPass = false;
-			foreach ((int x, int y) in GetTwoDimensionalRange(0, map.GetLength(0) - 1, 0, map.GetLength(1) - 1)) {
+			foreach ((int x, int y) in Helper.GetTwoDimensionalRange(0, map.GetLength(0) - 1, 0, map.GetLength(1) - 1)) {
 				if (!hasFlashed[x, y] && map[x, y] > 9) {
-					foreach ((int nx, int ny) in GetNeighbours(x, y, 0, map.GetLength(0) - 1, 0, map.GetLength(1) - 1)) {
+					foreach ((int nx, int ny) in Helper.GetNeighbors(x, y, 0, map.GetLength(0) - 1, 0, map.GetLength(1) - 1, true)) {
 						++map[nx, ny];
 					}
 					hasFlashed[x, y] = true;
@@ -49,25 +49,12 @@ public class Day11 : IDayChallenge {
 			}
 		} while (hasFlashedThisPass);
 
-		foreach ((int x, int y) in GetTwoDimensionalRange(0, map.GetLength(0) - 1, 0, map.GetLength(1) - 1)) {
+		foreach ((int x, int y) in Helper.GetTwoDimensionalRange(0, map.GetLength(0) - 1, 0, map.GetLength(1) - 1)) {
 			if (hasFlashed[x, y]) {
 				map[x, y] = 0;
 			}
 		}
 
 		return flashes;
-	}
-
-	private IEnumerable<(int x, int y)> GetTwoDimensionalRange(int startX, int endX, int startY, int endY) => Enumerable.Range(startX, endX - startX + 1).SelectMany(x => Enumerable.Range(startY, endY - startY + 1).Select(y => (x, y)));
-
-	private IEnumerable<(int x, int y)> GetNeighbours(int x, int y, int minX, int maxX, int minY, int maxY) {
-		if (x > minX && y > minY) yield return (x - 1, y - 1);
-		if (y > minY) yield return (x, y - 1);
-		if (x < maxX && y > minY) yield return (x + 1, y - 1);
-		if (x > minX) yield return (x - 1, y);
-		if (x < maxX) yield return (x + 1, y);
-		if (x > minX && y < maxY) yield return (x - 1, y + 1);
-		if (y < maxY) yield return (x, y + 1);
-		if (x < maxX && y < maxY) yield return (x + 1, y + 1);
 	}
 }
