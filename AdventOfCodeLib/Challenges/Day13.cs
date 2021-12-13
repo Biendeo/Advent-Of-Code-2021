@@ -23,14 +23,7 @@ public class Day13 : IDayChallenge {
 		return (dots, folds);
 	}
 
-	private HashSet<(int x, int y)> Fold(HashSet<(int x, int y)> dots, bool xFold, int value) {
-		HashSet<(int x, int y)> newDots = new();
-		foreach ((int x, int y) in dots) {
-			if (xFold) newDots.Add((x > value ? 2 * value - x : x, y));
-			else newDots.Add((x, y > value ? 2 * value - y : y));
-		}
-		return newDots;
-	}
+	private HashSet<(int x, int y)> Fold(HashSet<(int x, int y)> dots, bool xFold, int value) => new HashSet<(int x, int y)>(dots.Select(d => xFold ? (d.x > value ? (2 * value) - d.x : d.x, d.y) : (d.x, d.y > value ? (2 * value) - d.y : d.y)));
 
 	public string PartTwoFromFile(string[] inputLines) => PartTwo(inputLines);
 
