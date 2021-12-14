@@ -1,7 +1,4 @@
-﻿using System.Diagnostics;
-using System.Text;
-
-namespace AdventOfCodeLib.Challenges;
+﻿namespace AdventOfCodeLib.Challenges;
 
 [DayDetails(Day = 14, Name = "Extended Polymerization")]
 public class Day14 : IDayChallenge {
@@ -19,10 +16,18 @@ public class Day14 : IDayChallenge {
 		(string template, Dictionary<(char, char), char> insertionRules) = ParseInput(inputLines);
 		char lastCharacter = template.Last();
 		Dictionary<(char, char), long> pairingFrequencies = new();
-		for (int i = 0; i < template.Length - 1; ++i) InsertAndIncrement(pairingFrequencies, (template[i], template[i + 1]), 0L, 1L);
-		for (int gen = 0; gen < generations; ++gen) pairingFrequencies = ComputeGeneration(pairingFrequencies, insertionRules);
+		for (int i = 0; i < template.Length - 1; ++i) {
+			InsertAndIncrement(pairingFrequencies, (template[i], template[i + 1]), 0L, 1L);
+		}
+
+		for (int gen = 0; gen < generations; ++gen) {
+			pairingFrequencies = ComputeGeneration(pairingFrequencies, insertionRules);
+		}
+
 		Dictionary<char, long> elementFrequencies = new();
-		foreach (KeyValuePair<(char, char), long> frequency in pairingFrequencies) InsertAndIncrement(elementFrequencies, frequency.Key.Item1, 0L, frequency.Value);
+		foreach (KeyValuePair<(char, char), long> frequency in pairingFrequencies) {
+			InsertAndIncrement(elementFrequencies, frequency.Key.Item1, 0L, frequency.Value);
+		}
 		++elementFrequencies[lastCharacter];
 		return elementFrequencies.Max(e => e.Value) - elementFrequencies.Min(e => e.Value);
 	}
