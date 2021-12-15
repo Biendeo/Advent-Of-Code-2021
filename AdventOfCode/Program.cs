@@ -7,7 +7,7 @@ static void RunSolution<T>(Func<T> solution) {
 	T result = solution();
 	stopwatch.Stop();
 	Console.WriteLine(result);
-	Console.WriteLine($"Completed in {stopwatch.ElapsedMilliseconds}ms");
+	Console.WriteLine($"Completed in {stopwatch.ElapsedTicks / (Stopwatch.Frequency / 1000000)}μs");
 	Console.WriteLine();
 }
 
