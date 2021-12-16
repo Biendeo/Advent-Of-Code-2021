@@ -37,13 +37,11 @@ public class Day16 : IDayChallenge {
 			if (binaryInput[6] == '0') {
 				int lengthOfBits = Convert.ToInt32(binaryInput[7..22], 2);
 				packetLength = 22;
-				int packetNum = 0;
 				while (packetLength != 22 + lengthOfBits) {
 					(int subVersion, long subValue) = GetPacketVersionSumAndValue(binaryInput[packetLength..], out int subPacketLength);
 					packetLength += subPacketLength;
 					versionSum += subVersion;
 					values.Add(subValue);
-					++packetNum;
 				}
 			} else {
 				int numberOfSubPackets = Convert.ToInt32(binaryInput[7..18], 2);
