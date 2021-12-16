@@ -16,7 +16,7 @@ public class Day16 : IDayChallenge {
 		return valueSum;
 	}
 
-	private static string ToBinary(string input) => string.Concat(input.Select(c => HexToBinary[c]));
+	private static string ToBinary(string input) => string.Concat(input.Select(c => Convert.ToString(Convert.ToInt32(c.ToString(), 16), 2).PadLeft(4, '0')));
 
 	private (int versionSum, long value) GetPacketVersionSumAndValue(string binaryInput, out int packetLength) {
 		int versionSum = Convert.ToInt32(binaryInput[0..3], 2);
@@ -64,23 +64,4 @@ public class Day16 : IDayChallenge {
 		}
 		return (versionSum, value);
 	}
-
-	private static readonly Dictionary<char, string> HexToBinary = new() {
-		{ '0', "0000" },
-		{ '1', "0001" },
-		{ '2', "0010" },
-		{ '3', "0011" },
-		{ '4', "0100" },
-		{ '5', "0101" },
-		{ '6', "0110" },
-		{ '7', "0111" },
-		{ '8', "1000" },
-		{ '9', "1001" },
-		{ 'A', "1010" },
-		{ 'B', "1011" },
-		{ 'C', "1100" },
-		{ 'D', "1101" },
-		{ 'E', "1110" },
-		{ 'F', "1111" }
-	};
 }
