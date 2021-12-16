@@ -2,8 +2,6 @@
 
 [DayDetails(Day = 16, Name = "Packet Decoder")]
 public class Day16 : IDayChallenge {
-	private delegate (int x, int y, int aim) Operation(int mangitude, int x, int y, int aim);
-
 	public string PartOneFromFile(string[] inputLines) => PartOne(inputLines.Single()).ToString();
 
 	public int PartOne(string input) {
