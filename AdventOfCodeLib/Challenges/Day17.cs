@@ -10,9 +10,9 @@ public class Day17 : IDayChallenge {
 
 	public int PartTwo(string input) => ComputeAndEvaluate(input, q => q.Count());
 
-	private int ComputeAndEvaluate(string input, Func<ParallelQuery<(bool lands, int highestY)>, int> f) {
+	private int ComputeAndEvaluate(string input, Func<IEnumerable<(bool lands, int highestY)>, int> f) {
 		int[] inputValues = input.Replace(", y=", "..")[15..].Split("..").Select(a => int.Parse(a)).ToArray();
-		return f(Helper.GetTwoDimensionalRange(0, 1000, -1000, 1000).AsParallel().Select(a => DoesLandInArea(a.x, a.y, inputValues[0], inputValues[1], inputValues[3], inputValues[2])).Where(r => r.lands));
+		return f(Helper.GetTwoDimensionalRange(0, inputValues[1], inputValues[2], 100).AsParallel().Select(a => DoesLandInArea(a.x, a.y, inputValues[0], inputValues[1], inputValues[3], inputValues[2])).Where(r => r.lands));
 	}
 
 	private (bool lands, int highestY) DoesLandInArea(int xVel, int yVel, int xLeft, int xRight, int yTop, int yBottom) {
