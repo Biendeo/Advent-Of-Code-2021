@@ -8,7 +8,7 @@ public class Day18 : IDayChallenge {
 
 	public string PartTwoFromFile(string[] inputLines) => PartTwo(inputLines).ToString();
 
-	public int PartTwo(string[] inputLines) => Helper.GetTwoDimensionalRange(0, inputLines.Length - 1, 0, inputLines.Length - 1).Max(a => Magnitude(Reduce($"[{inputLines[a.x]},{inputLines[a.y]}]")));
+	public int PartTwo(string[] inputLines) => Helper.GetTwoDimensionalRange(0, inputLines.Length - 1, 0, inputLines.Length - 1).AsParallel().Max(a => Magnitude(Reduce($"[{inputLines[a.x]},{inputLines[a.y]}]")));
 
 	public string Reduce(string line) {
 		bool didSomethingThisPass;
